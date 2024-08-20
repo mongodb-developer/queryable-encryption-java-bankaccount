@@ -1,6 +1,9 @@
 # BankAccount Service
 
-This is a brief guide on how to use the BankAccount service, including how to call the different endpoints.
+The BankAccount service project aims to explore queryable encryption using MongoDB. By automatically encrypting and decrypting specific fields upon retrieval, we support advanced querying, including equality and range greater than (GT) operations.
+## Prerequisites
+- MongoDB 8.0 ReplicaSet
+- Java 17+ 
 
 ## Insert One
 To insert a new bank account, make a `POST` request to `http://localhost:8080/bank`. The body of the request should include the following fields:
@@ -36,3 +39,9 @@ To find a bank account by its account number, make a GET request to http://local
 ## Compass IN-USE Encryption
 
 ![Decrypted](src/main/resources/images/decrypted.PNG)
+
+# Author
+Ricardo Mello
+- Find me in MongoDB Community [MongoDB Developer Community forum](https://www.mongodb.com/community/forums/u/ricardo_silva_de_mello/summary).
+- Ricardo on [GitHub](https://github.com/ricardohsmello)
+
