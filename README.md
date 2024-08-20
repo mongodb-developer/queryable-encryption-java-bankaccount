@@ -42,6 +42,6 @@ To find a bank account by its account number, make a GET request to http://local
 
 # Author
 Ricardo Mello
-- Find me in MongoDB Community [MongoDB Developer Community forum](https://www.mongodb.com/community/forums/u/ricardo_silva_de_mello/summary).
+- Ricardo on [MongoDB Developer Community](https://www.mongodb.com/community/forums/u/ricardo_silva_de_mello/summary).
 - Ricardo on [GitHub](https://github.com/ricardohsmello)
 
