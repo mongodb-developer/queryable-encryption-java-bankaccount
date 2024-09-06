@@ -1,46 +1,57 @@
 # BankAccount Service
 
-The BankAccount service project aims to explore queryable encryption using MongoDB. By automatically encrypting and decrypting specific fields upon retrieval, we support advanced querying, including equality and range greater than (GT) operations.
+The BankAccount service project focuses on exploring queryable encryption to securely manage sensitive bank account information. The application will encrypt the following fields in the BankAccount entity:
+
+- accountNumber 
+- cardVerificationCode 
+- accountBalance 
+
+The goal is to enable secure querying of encrypted data. Specifically, the project will implement encryption mechanisms that support:
+
+- Equality Queries: Searching by accountNumber.
+- Range Queries: Such as performing greater-than comparisons on accountBalance, allowing secure range-based searches.
+
+By encrypting these fields, the service maintains the confidentiality of sensitive information while supporting advanced querying capabilities. The system will automatically handle encryption and decryption, ensuring that secure and efficient data retrieval is possible.
+
+## Demonstration
+![Demonstration](/src/main/resources/images/demonstration-postman.gif)
+
 ## Prerequisites
 - MongoDB 8.0 ReplicaSet
 - Java 17+ 
 
-![Demonstration](/src/main/resources/images/demonstration-postman.gif)
-
-## Insert One
-To insert a new bank account, make a `POST` request to `http://localhost:8080/bank`. The body of the request should include the following fields:
-
-- `accountHolderName` (required, string)
-- `accountNumber` (required, string)
-- `cardVerificationCode` (required, string)
-- `accountBalance` (required, number)
-
-### Example 
+## Endpoints
+### @POST
 
 ```
      curl --location 'http://localhost:8080/bank' \
         --header 'Content-Type: application/json' \
         --data '{
-        "accountHolderName": "Ricas",
-        "accountNumber": "9872334",
-        "cardVerificationCode": "192",
-        "accountBalance": 2100.2
-}'
+            "accountHolderName": "Ricas",
+            "accountNumber": "9872334",
+            "cardVerificationCode": "192",
+            "accountBalance": 2100.2
+        }'
 ```
 
-## Compass Encrypted data
-![Encrypted](src/main/resources/images/encrypted.PNG)
+### @GET 
 
-## Find All
-To retrieve all bank accounts, make a GET request to http://localhost:8080/bank.
-
-## Find by Account Number
-To find a bank account by its account number, make a GET request to http://localhost:8080/bank/{accountNumber}, replacing {accountNumber} with the actual account number of interest.
+```
+     curl --location 'http://localhost:8080/bank'
+```
 
 
-## Compass IN-USE Encryption
+### @GET /bank/accountNumber/{value}
 
-![Decrypted](src/main/resources/images/decrypted.PNG)
+```
+curl --location 'http://localhost:8080/bank/accountNumber/98732909855512398731'
+```
+
+### @GET /bank/balance/greaterThan/{value}
+
+```
+curl --location 'http://localhost:8080/bank/balance/greaterThan/10'
+```
 
 # Author
 Ricardo Mello
