@@ -5,7 +5,7 @@ The BankAccount service project aims to explore queryable encryption using Mongo
 - MongoDB 8.0 ReplicaSet
 - Java 17+ 
 
-![Demonstration](/src/main/resources/images/ScreenFlow.gif)
+![Demonstration](/src/main/resources/images/demonstration-postman.gif)
 
 ## Insert One
 To insert a new bank account, make a `POST` request to `http://localhost:8080/bank`. The body of the request should include the following fields:
