@@ -27,7 +27,7 @@ public class BankController {
         return ResponseEntity.ok(bankAccountService.find().stream().map(BankAccount::toResponse).toList());
     }
 
-    @GetMapping("/gt/{value}")
+    @GetMapping("/balance/greaterThan/{value}")
     ResponseEntity<List<BankResponse>> findByBalanceGreaterThan(@PathVariable Double value) {
         return ResponseEntity.ok(bankAccountService.findByBalanceGreaterThan(value).stream().map(BankAccount::toResponse).toList());
     }
