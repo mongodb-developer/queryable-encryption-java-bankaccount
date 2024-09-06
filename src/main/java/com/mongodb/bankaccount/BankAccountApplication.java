@@ -1,6 +1,6 @@
 package com.mongodb.bankaccount;
 
-import com.mongodb.bankaccount.application.config.EncryptionConfig;
+import com.mongodb.bankaccount.resources.config.EncryptionConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

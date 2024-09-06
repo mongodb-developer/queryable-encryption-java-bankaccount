@@ -1,4 +1,4 @@
-package com.mongodb.bankaccount.application.config;
+package com.mongodb.bankaccount.resources.config;
 
 import com.mongodb.AutoEncryptionSettings;
 import com.mongodb.ClientEncryptionSettings;
@@ -11,7 +11,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.Base64;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,9 +29,10 @@ public class EncryptionConfig {
     private String keyVaultNamespace;
     private String encryptedDatabaseName;
     private String encryptedCollectionName;
-    private String cmk;
     private String cryptSharedLibPath;
 
+    private static final String CUSTOMER_KEY_PATH = "src/main/resources/customer-key.txt";
+    private static final int KEY_SIZE = 96;
     private final Map<String, Map<String, Object>> kmsProviderCredentials = new HashMap<>();
 
     @Bean
@@ -39,7 +44,7 @@ public class EncryptionConfig {
         };
     }
 
-    private ClientEncryptionSettings clientEncryptionSettings() {
+    private ClientEncryptionSettings clientEncryptionSettings() throws Exception {
         return ClientEncryptionSettings.builder()
                 .keyVaultMongoClientSettings(getMongoClientSettings())
                 .keyVaultNamespace(keyVaultNamespace)
@@ -47,7 +52,7 @@ public class EncryptionConfig {
                 .build();
     }
 
-    protected MongoClientSettings getMongoClientSettings() {
+    protected MongoClientSettings getMongoClientSettings() throws Exception {
         kmsProviderCredentials.put("local", createLocalKmsProvider());
 
         AutoEncryptionSettings autoEncryptionSettings = AutoEncryptionSettings.builder()
@@ -62,10 +67,46 @@ public class EncryptionConfig {
                 .build();
     }
 
-    private Map<String, Object> createLocalKmsProvider() {
+    private Map<String, Object> createLocalKmsProvider() throws IOException {
+        if (!isCustomerMasterKeyFileExists()) {
+            generateCustomerMasterKey();
+        }
+
+        byte[] localCustomerMasterKey = readCustomerMasterKey();
+
         Map<String, Object> keyMap = new HashMap<>();
-        keyMap.put("key", Base64.getDecoder().decode(cmk));
+        keyMap.put("key", localCustomerMasterKey);
+
         return keyMap;
+    }
+
+    private boolean isCustomerMasterKeyFileExists() {
+        return new File(CUSTOMER_KEY_PATH).isFile();
+    }
+    private void generateCustomerMasterKey() throws IOException {
+        byte[] localCustomerMasterKey = new byte[KEY_SIZE];
+        new SecureRandom().nextBytes(localCustomerMasterKey);
+
+        try (FileOutputStream stream = new FileOutputStream(CUSTOMER_KEY_PATH)) {
+            stream.write(localCustomerMasterKey);
+        } catch (IOException e) {
+            throw new IOException("Unable to write Customer Master Key file: " + e.getMessage(), e);
+        }
+    }
+
+    private byte[] readCustomerMasterKey() throws IOException {
+        byte[] localCustomerMasterKey = new byte[KEY_SIZE];
+
+        try (FileInputStream fis = new FileInputStream(CUSTOMER_KEY_PATH)) {
+            int bytesRead = fis.read(localCustomerMasterKey);
+            if (bytesRead != KEY_SIZE) {
+                throw new IOException("Expected the customer master key file to be " + KEY_SIZE + " bytes, but read " + bytesRead + " bytes.");
+            }
+        } catch (IOException e) {
+            throw new IOException("Unable to read the Customer Master Key: " + e.getMessage(), e);
+        }
+
+        return localCustomerMasterKey;
     }
 
     private Map<String, Object> createExtraOptions() {

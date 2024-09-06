@@ -1,4 +1,4 @@
-package com.mongodb.bankaccount.application.config;
+package com.mongodb.bankaccount.resources.config;
 
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
@@ -24,7 +24,7 @@ public class MongoConfig {
     }
 
     @Bean
-    public MongoClient mongoClient() {
+    public MongoClient mongoClient() throws Exception {
         MongoClientSettings mongoClientSettings = encryptionConfig.getMongoClientSettings();
         return MongoClients.create(mongoClientSettings);
     }

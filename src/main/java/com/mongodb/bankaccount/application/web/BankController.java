@@ -28,11 +28,11 @@ public class BankController {
     }
 
     @GetMapping("/gt/{value}")
-    ResponseEntity<List<BankResponse>> balanceGreaterThan(@PathVariable Double value) {
-        return ResponseEntity.ok(bankAccountService.balanceGreaterThan(value).stream().map(BankAccount::toResponse).toList());
+    ResponseEntity<List<BankResponse>> findByBalanceGreaterThan(@PathVariable Double value) {
+        return ResponseEntity.ok(bankAccountService.findByBalanceGreaterThan(value).stream().map(BankAccount::toResponse).toList());
     }
 
-    @GetMapping("/{accountNumber}")
+    @GetMapping("/accountNumber/{accountNumber}")
     ResponseEntity<BankResponse> getAccountByNumber(@PathVariable String accountNumber) {
         BankAccount bankAccount = bankAccountService.findByAccountNumber(accountNumber);
         if (bankAccount != null) {

@@ -61,7 +61,7 @@ public class BankAccountRepository implements BankAccountPort {
     }
 
     @Override
-    public List<BankAccount> balanceGreaterThan(double value) {
+    public List<BankAccount> findByBalanceGreaterThan(double value) {
         try {
             ArrayList<BankAccountEntity> bankAccounts = new ArrayList<>();
             collection.find(gt("accountBalance", value)).into(bankAccounts);

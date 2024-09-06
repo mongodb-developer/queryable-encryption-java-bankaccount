@@ -10,29 +10,29 @@ import java.util.Objects;
 
 @Service
 public class BankAccountService {
-    private static final Logger logger = LoggerFactory.getLogger(BankAccountService.class);
 
-    BankAccountRepository bankAccountRepository;
+    BankAccountPort bankAccountPort;
 
-    BankAccountService(BankAccountRepository bankAccountRepository) {
-        this.bankAccountRepository = bankAccountRepository;
+    BankAccountService(BankAccountPort bankAccountPort) {
+        this.bankAccountPort = bankAccountPort;
     }
 
     public String insert(BankAccount bankAccount) {
         Objects.requireNonNull(bankAccount, "Bank account must not be null");
-        return bankAccountRepository.insert(bankAccount);
+
+        return bankAccountPort.insert(bankAccount);
      }
 
     public List<BankAccount> find() {
-        return bankAccountRepository.find();
+        return bankAccountPort.find();
     }
 
-    public List<BankAccount> balanceGreaterThan(double value) {
-        return bankAccountRepository.balanceGreaterThan(value);
+    public List<BankAccount> findByBalanceGreaterThan(double value) {
+        return bankAccountPort.findByBalanceGreaterThan(value);
     }
 
     public BankAccount findByAccountNumber(String accountNumber) {
-        return bankAccountRepository.findByAccountNumber(accountNumber);
+        return bankAccountPort.findByAccountNumber(accountNumber);
     }
 
 }

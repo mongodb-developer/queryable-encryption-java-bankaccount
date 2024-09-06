@@ -1,4 +1,4 @@
-package com.mongodb.bankaccount.application.config;
+package com.mongodb.bankaccount.resources.config;
 
 import com.mongodb.ClientEncryptionSettings;
 import com.mongodb.client.MongoDatabase;
@@ -52,6 +52,4 @@ public class EncryptionFieldConfig {
     private BsonDocument query(String type) {
         return new BsonDocument().append("queryType", new BsonString(type));
     }
-
-
 }
