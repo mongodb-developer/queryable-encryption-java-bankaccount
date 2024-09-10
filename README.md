@@ -21,7 +21,7 @@ By encrypting these fields, the service maintains the confidentiality of sensiti
 - Java 17+ 
 
 ## Endpoints
-### @POST
+### Create new document
 
 ```
      curl --location 'http://localhost:8080/bank' \
@@ -34,20 +34,20 @@ By encrypting these fields, the service maintains the confidentiality of sensiti
         }'
 ```
 
-### @GET 
+### Find documents 
 
 ```
      curl --location 'http://localhost:8080/bank'
 ```
 
 
-### @GET /bank/accountNumber/{value}
+### Find by accountNumber
 
 ```
 curl --location 'http://localhost:8080/bank/accountNumber/98732909855512398731'
 ```
 
-### @GET /bank/balance/greaterThan/{value}
+### Find by balance greater than
 
 ```
 curl --location 'http://localhost:8080/bank/balance/greaterThan/10'

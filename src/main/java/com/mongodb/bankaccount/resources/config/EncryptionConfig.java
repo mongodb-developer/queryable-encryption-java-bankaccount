@@ -36,10 +36,10 @@ public class EncryptionConfig {
     private final Map<String, Map<String, Object>> kmsProviderCredentials = new HashMap<>();
 
     @Bean
-    public ApplicationRunner createEncryptedCollectionRunner(MongoDatabase db, EncryptionFieldConfig fieldConfig) {
+    public ApplicationRunner createEncryptedCollectionRunner(MongoDatabase db, EncryptionFieldConfig encryptionFieldConfig) {
         return args -> {
-            if (!fieldConfig.collectionExists(db, encryptedCollectionName)) {
-                fieldConfig.createEncryptedCollection(db, clientEncryptionSettings());
+            if (!encryptionFieldConfig.collectionExists(db, encryptedCollectionName)) {
+                encryptionFieldConfig.createEncryptedCollection(db, clientEncryptionSettings());
             }
         };
     }
