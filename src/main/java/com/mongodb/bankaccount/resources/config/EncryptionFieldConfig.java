@@ -5,10 +5,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.CreateCollectionOptions;
 import com.mongodb.client.model.CreateEncryptedCollectionParams;
 import com.mongodb.client.vault.ClientEncryptions;
-import org.bson.BsonArray;
-import org.bson.BsonDocument;
-import org.bson.BsonNull;
-import org.bson.BsonString;
+import org.bson.*;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
@@ -34,22 +31,30 @@ public class EncryptionFieldConfig {
     private BsonDocument encryptFields() {
         return new BsonDocument().append("fields",
                 new BsonArray(Arrays.asList(
-                        createEncryptedField("accountNumber", "string", "equality"),
-                        createEncryptedField("cardVerificationCode", "int",  "equality"),
-                        createEncryptedField("accountBalance", "double",  "range")
-                )));
+                        createEncryptedField("accountNumber", "string", equalityQueryType()),
+                        createEncryptedField("cardVerificationCode", "int", equalityQueryType()),
+                        createEncryptedField("accountBalance", "double", rangeQueryType()
+                        ))));
     }
 
-    private BsonDocument createEncryptedField(String path, String bsonType, String queryType) {
+    private BsonDocument createEncryptedField(String path, String bsonType, BsonDocument query) {
 
         return new BsonDocument()
                 .append("keyId", new BsonNull())
                 .append("path", new BsonString(path))
                 .append("bsonType", new BsonString(bsonType))
-                .append("queries", query(queryType));
+                .append("queries", query);
     }
 
-    private BsonDocument query(String type) {
-        return new BsonDocument().append("queryType", new BsonString(type));
+    private BsonDocument rangeQueryType() {
+        return new BsonDocument()
+                .append("queryType", new BsonString("range"))
+                .append("min", new BsonDouble(0))
+                .append("max", new BsonDouble(999999999))
+                .append("precision", new BsonInt32(2));
+    }
+
+    private BsonDocument equalityQueryType() {
+        return new BsonDocument().append("queryType", new BsonString("equality"));
     }
 }
