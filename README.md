@@ -1,4 +1,4 @@
-# BankAccount Service
+# Queryable-Encryption-BankAccount
 
 The BankAccount service project focuses on exploring queryable encryption to securely manage sensitive bank account information. The application will encrypt the following fields in the BankAccount entity:
 
@@ -19,6 +19,12 @@ By encrypting these fields, the service maintains the confidentiality of sensiti
 ## Prerequisites
 - MongoDB 8.0 ReplicaSet
 - Java 17+ 
+
+## Running the application
+
+```
+./mvnw spring-boot:run
+```
 
 ## Endpoints
 ### Create new document
