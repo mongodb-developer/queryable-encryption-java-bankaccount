@@ -1,5 +1,8 @@
 # Queryable-Encryption-BankAccount
 
+You can learn more at the MongoDB Developer Center:
+- [`Java Meets Queryable Encryption: Developing a Secure Bank Account Application`](https://www.mongodb.com/developer/products/atlas/java-queryable-encryption/)
+
 The BankAccount service project focuses on exploring queryable encryption to securely manage sensitive bank account information. The application will encrypt the following fields in the BankAccount entity:
 
 - accountNumber 
